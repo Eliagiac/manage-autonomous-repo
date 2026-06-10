@@ -1,0 +1,4 @@
+interface:
+  display_name: "Manage Autonomous Repo"
+  short_description: "Guide Codex-only repositories end to end"
+  default_prompt: "Use $manage-autonomous-repo to run this Codex-managed repository through the full protocol: baseline, install/use project-local preset agents if missing, independent track portfolio, task cards, depth-aware parallel subagents, branch/worktree workers, execution/proof lanes, review gates, integration, validation, utilization review, and state-doc handoff."
