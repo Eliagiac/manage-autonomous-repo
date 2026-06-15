@@ -20,6 +20,8 @@ Read only the references needed for the current phase:
 - `references/documentation-system.md`: required living docs, roadmaps, demos, restart handoff structure.
 - `references/context-and-memory.md`: context redundancy control, long-term memory, compaction, handoff briefs.
 - `references/source-control-and-github.md`: repository setup, GitHub/PR/worktree policy, branch-separated subagent work, integration branches, conflict handling.
+- `references/high-parallel-evidence-development.md`: evidence-status taxonomy, external workdir contracts, resource locks, branch-stack maps, and stop rules for planning-only chains.
+- `references/goal-prompt-and-context-bundles.md`: context capsules, goal-prompt structure, branch-doc bundle ingestion, and token-budgeted handoffs.
 - `references/autonomous-workflows.md`: planning, research, implementation, debugging, testing, foundation review, refactor strategy.
 
 ## Default Runner Model
@@ -65,6 +67,21 @@ For broad autonomous projects, do not let the orchestrator collapse the whole ro
 9. Assign read-only/research agents to tracks that still need scoping.
 10. Keep `main` stable. After the GitHub baseline is established, substantial code changes should normally happen on worker branches and merge through `integrate/<milestone>`.
 11. If only one track is active, document why: no clean baseline yet, every path depends on the same blocker, the repo is too dirty to split safely, or no path has a separable write scope.
+
+
+## Evidence-Contract and Context-Capsule Addendum
+
+For long-running repos that accumulate planning contracts, external evidence, run manifests, and PR-stack branches, treat evidence integrity as a first-class workflow concern.
+
+1. Before dispatching workers, build a context capsule instead of rereading the full repository memory. Include current branch/worktree/PR stack, active objective, source-of-truth docs, known negative evidence, resource locks, selected tracks, and stop conditions. Link long docs and logs instead of pasting them.
+2. Classify artifacts before using them: `plan`, `request`, `contract`, `readiness`, `smoke`, `diagnostic`, `execution`, `demo`, `visual_qc`, `acceptance`, `parked`, `rejected`, or `accepted`. Do not let workers promote an artifact beyond its status without a named promotion gate.
+3. Distinguish source-controlled contracts from ignored external payloads. External workdir evidence needs identity, provenance, hashes when available, exact command/log paths, and repo-owned import/summary contracts before it can influence acceptance.
+4. Name shared resource locks in task cards: GPU/training, browser/headful runtime, external workdir, dataset/source payload, large `runs/` root, PR-stack branch, and central config/schema files.
+5. In active PR stacks, map branch ancestry and current merge target before assigning write lanes. Workers should not write on stale bases or ambiguous worktrees.
+6. For planning-heavy projects, every planning chain must end as one of: implementation task card, execution task card, parked idea with blocker, or explicit rejection. Avoid producing more contracts when the next useful step is already clear.
+7. When a repo has a non-hallucination, safety, legal, privacy, or source-fidelity covenant, put that covenant in each relevant task card and review gate. Treat violations as stop conditions, not review comments.
+
+Use `references/high-parallel-evidence-development.md` and `references/goal-prompt-and-context-bundles.md` for detailed templates.
 
 ## Autonomous Program Protocol
 
