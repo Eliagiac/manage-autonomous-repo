@@ -1,5 +1,54 @@
 # Agent Ledger
 
+## 2026-06-16 - Long-Horizon Product Program Update
+
+Objective: integrate and document the archive update from `C:\Users\eliag\Downloads\manage_autonomous_repo_long_horizon_skill_update.zip`.
+
+Candidate tracks found:
+- Archive inventory and diff mapping.
+- Product Program Mode integration in `SKILL.md`.
+- New reference docs for product lifecycle, orchestration landscape, and goal/handoff contracts.
+- New `mar_program_auditor` preset plus installer/config registration.
+- Usage/readme/state updates for branch-visible evidence, worktree isolation, project-local agents, dynamic orchestration, termination/resume statuses, and token/usage reporting.
+
+Selected tracks:
+- Orchestrator: merge archive additions into current repo without overwriting previous evidence/context additions.
+- Explorer: read-only archive inventory and integration-risk check.
+
+Agents spawned:
+- Archive inventory explorer, `gpt-5.4-mini high`, read-only.
+
+Workers by mode: research 1 / documentation 1 / implementation 0 / execution 0 / review 0.
+
+Orchestrator-local heavy work:
+- Source-controlled docs and installer edits stayed local because they are small, shared integration files and must preserve the previous evidence-contract update.
+
+Reasons local work was not delegated:
+- The archive `SKILL.md` was not a clean replacement for the current `SKILL.md`; it needed a semantic merge to preserve existing references and add the long-horizon update.
+
+Resource locks or bottlenecks:
+- Canonical repo branch: `main`.
+- Loaded skill directory: `C:\Users\eliag\.codex\skills\manage-autonomous-repo`.
+
+Model and reasoning choices:
+- Cheap explorer was sufficient for archive inventory; orchestrator handled semantic merge and source-control integration.
+
+Token/usage budget status:
+- No explicit token budget was set. Usage reporting is now documented as first-class batch metadata.
+
+Outputs integrated:
+- `SKILL.md` Product Program Mode and long-horizon references.
+- `references/product-orchestration-lifecycle.md`, `references/agentic-orchestration-landscape.md`, and `references/goal-prompt-and-handoff-contracts.md`.
+- `assets/agents/mar-program-auditor.toml` plus installer/config registration docs.
+- Loaded skill directory refreshed at `C:\Users\eliag\.codex\skills\manage-autonomous-repo`.
+- `gaussian-splatting`, `gaussian-splatting-wg-backend-route-plan`, and `3d` received `mar_program_auditor` project-local preset/config registration and status notes.
+
+Tracks parked or split:
+- None.
+
+Next batch split points:
+- If project-local `.codex/agents` copies need the new `mar_program_auditor`, run the installer per project after checking for local customizations.
+
 ## 2026-06-16 - Documentation and Propagation Run
 
 Objective: Document and push the latest skill changes, then propagate them to the loaded Codex skill directory and related project-local references.

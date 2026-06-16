@@ -19,6 +19,7 @@ AGENT_REGISTRATIONS = [
     ("mar_deep_code_worker", "mar-deep-code-worker.toml", "Higher-reasoning implementation and debugging for cross-module work or subtle integration risk."),
     ("mar_execution_runner", "mar-execution-runner.toml", "Artifact-producing execution lanes for tests, benchmarks, imports, captures, demos, reports, CI/log collection, and QC."),
     ("mar_reviewer", "mar-reviewer.toml", "Read-only review for correctness, maintainability, security/privacy, performance, docs/test, and integration risk."),
+    ("mar_program_auditor", "mar-program-auditor.toml", "Read-only product-program audit for milestone gates, portfolio balance, completion status, and cost/parallelization drift."),
     ("mar_senior_synthesizer", "mar-senior-synthesizer.toml", "Rare senior synthesis for architecture, roadmap, conflict, or ambiguous product-state decisions."),
 ]
 

@@ -20,6 +20,15 @@ Use subagents as per skill instructions.
 Continue work on this repository toward the current roadmap. Keep source control, docs, tests, demos, and handoffs current.
 ```
 
+For a broad product or research-program goal, include the product gate and the expected non-terminal status behavior:
+
+```text
+[$manage-autonomous-repo](C:\Users\<you>\.codex\skills\manage-autonomous-repo\SKILL.md)
+Use subagents as per skill instructions.
+
+Run this repository as a Product Program Mode project. Treat ordinary sessions as progress cycles. End with RUN_CONTINUES, MILESTONE_ACCEPTED, BLOCKED_REQUIRES_HUMAN, or PRODUCT_READY, and only claim completion when the product gate passes.
+```
+
 ## First-Run Checklist
 
 1. Confirm the repository is trusted and under Git.
@@ -37,6 +46,7 @@ The main agent acts as orchestrator:
 - create task cards;
 - spawn subagents for bounded work;
 - keep branches and worktrees separated;
+- keep branch-visible agent outputs reviewable through commits, logs, PRs, check results, or source-controlled reports;
 - integrate outputs deliberately;
 - update durable docs;
 - leave a clear handoff.
@@ -48,6 +58,7 @@ Subagents should own scoped work:
 - execution/proof runs;
 - reviews;
 - documentation audits;
+- product-program audits;
 - test planning;
 - debugging;
 - demo validation.
@@ -65,6 +76,8 @@ For meaningful work, prefer named branches:
 - `integrate/<milestone>`
 
 Use worktrees when independent subagents need isolated checkouts.
+
+Cloud or branch-visible coding workers should leave source-control evidence. Prefer commits, logs, PR-ready branch summaries, check results, or source-controlled reports over chat-only claims.
 
 ## Durable Memory
 

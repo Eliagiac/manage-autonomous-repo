@@ -11,6 +11,28 @@ Run the repository as an autonomous engineering program, not as a one-off patch.
 
 Prefer proactive progress over waiting for user input. Make reversible decisions, record assumptions, validate them, and escalate only when the next action would be destructive, paid, credential-dependent, legally sensitive, or impossible to reverse with source control.
 
+## Product Program Mode
+
+When the user asks for a product, research program, autonomous project, or broad objective rather than a patch, switch to Product Program Mode.
+
+Product Program Mode means:
+
+1. Define the product gate, milestone ladder, and active portfolio before implementation.
+2. Treat ordinary sessions as progress cycles, not completion events.
+3. Use explicit exit statuses: `RUN_CONTINUES`, `MILESTONE_ACCEPTED`, `BLOCKED_REQUIRES_HUMAN`, or `PRODUCT_READY`.
+4. Never mark a broad goal complete because instructions were read, a plan was written, a first slice landed, or one branch was merged.
+5. Keep the long-horizon operating model in repo docs so future agents can resume without chat memory.
+6. Maintain an independent track portfolio and choose batches by safe parallelism, user value, unblock value, proof clarity, integration cost, and resource locks.
+7. Record negative and parked evidence as first-class progress when it prevents repeated expensive routes.
+
+For Product Program Mode, write or update a small set of management docs when absent:
+
+- Product objective and non-goals.
+- Milestone roadmap with gates.
+- Track portfolio and parked/negative lanes.
+- Agent operating model with roles, branch/worktree policy, resource locks, and exit statuses.
+- Compact goal prompt plus bulk instruction file when platform prompt limits apply.
+
 ## Load References
 
 Read only the references needed for the current phase:
@@ -23,6 +45,9 @@ Read only the references needed for the current phase:
 - `references/high-parallel-evidence-development.md`: evidence-status taxonomy, external workdir contracts, resource locks, branch-stack maps, and stop rules for planning-only chains.
 - `references/goal-prompt-and-context-bundles.md`: context capsules, goal-prompt structure, branch-doc bundle ingestion, and token-budgeted handoffs.
 - `references/autonomous-workflows.md`: planning, research, implementation, debugging, testing, foundation review, refactor strategy.
+- `references/product-orchestration-lifecycle.md`: long-horizon product gates, milestone loops, completion statuses, and product-program docs.
+- `references/agentic-orchestration-landscape.md`: external patterns from Codex, GitHub agents, Claude Code, LangGraph, AutoGen, CrewAI, OpenHands, and Git worktrees.
+- `references/goal-prompt-and-handoff-contracts.md`: compact goals, bulk instruction files, session handoffs, and non-terminal exit statuses.
 
 ## Default Runner Model
 
@@ -42,7 +67,7 @@ For broad repo goals, treat parallelization as a required workflow stage, not an
    - Track name, objective, mode, branch/worktree, owned files/modules/questions, avoid scope, model, proof artifact, validation command, and integration order.
 4. Before implementation, create a delegation map with owned lanes:
    - Orchestrator lane: sequencing, architecture decisions, integration, conflict resolution, final validation, user-facing handoff.
-   - Subagent lanes: bounded exploration, test discovery, failure reproduction, log analysis, execution/proof runs, plugin/browser validation, documentation audit, dependency research, or disjoint code changes.
+   - Subagent lanes: bounded exploration, test discovery, failure reproduction, log analysis, execution/proof runs, plugin/browser validation, documentation audit, program audit, dependency research, or disjoint code changes.
 5. Before spawning, select the desired autonomous-repo preset for each lane. If `.codex/agents/` or `.codex/config.toml` lacks the registered `mar_*` presets, run `python <skill-dir>/scripts/install_agent_presets.py <project-root> --write-config`; see `references/agent-presets.md`.
 6. Spawn subagents as an initial batch when tools and policy permit. In a fresh registered project session, use preset names directly, such as `agent_type = "mar_explorer"` or `agent_type = "mar_code_worker"`.
 7. If a `mar_*` name is rejected with `unknown agent_type`, treat the current session as stale or unregistered: fix the project registration and start a fresh session. Only use built-in fallback roles with explicit model/reasoning overrides when work must continue in the stale session.
@@ -95,7 +120,7 @@ Use this positive workflow for broad repo sessions:
 6. **Depth discipline:** use depth 1 for direct track owners and depth 2 only for worker-local helpers that the depth-1 parent can synthesize. Never let depth 2 become another orchestration layer.
 7. **Review gates:** require each worker to self-review, report evidence, and identify risks. For substantial code changes, run a spec/acceptance review before code-quality or cleanup review.
 8. **Integrate:** merge or copy worker results one at a time through `integrate/<milestone>`, running narrow validation after each and broader validation after the batch.
-9. **Utilization review:** record actual parallelism versus possible parallelism, workers by mode, orchestrator-local heavy work, reasons not delegated, cost/model choices, and next batch split points.
+9. **Utilization review:** record actual parallelism versus possible parallelism, workers by mode, orchestrator-local heavy work, reasons not delegated, cost/model choices, token/usage budget status, and next batch split points.
 10. **Memory:** update state, roadmap, test matrix, demo index, and agent ledger with what changed, what was proven, what remains blocked, and which tracks should enter the next batch.
 
 ## Operating Loop
@@ -144,10 +169,12 @@ Use this positive workflow for broad repo sessions:
    - Run tests, linters, type checks, build commands, migrations, and smoke tests appropriate to the stack.
    - Maintain demos for all relevant user-facing or operator-facing features. Assume installed Codex plugins are available even when the user did not explicitly name them; proactively use the right plugin when it improves research, implementation, validation, demos, or source-control work. Prioritize GitHub for repo/PR/CI work, Browser or Chrome for web UI inspection, and Computer Use for desktop-app validation.
    - If useful software or libraries are missing, install project-local dependencies independently when safe and reversible. Avoid global/system installs, paid services, or credentialed external changes unless necessary and authorized by the environment or user.
+   - For branch-visible cloud coding agents or external coding workers, require reviewable evidence in source control: commits, logs, branch summaries, PRs, check results, or equivalent artifacts. Chat-only claims are not sufficient proof.
 
 8. Report and hand off.
    - Keep user-facing status concise: current capability, latest demo path, roadmap position, important risks, and next recommended work.
-   - Record a batch utilization note in `docs/ai/agent-ledger.md` or `docs/ai/state.md`: selected tracks, agents spawned, local heavy work, reasons for skipped delegation, model/cost choices, and next split points.
+   - Record a batch utilization note in `docs/ai/agent-ledger.md` or `docs/ai/state.md`: selected tracks, agents spawned, local heavy work, reasons for skipped delegation, model/cost choices, token/usage budget status, and next split points.
+   - For broad Product Program Mode goals, end with `RUN_CONTINUES`, `MILESTONE_ACCEPTED`, `BLOCKED_REQUIRES_HUMAN`, or `PRODUCT_READY`; reserve completion claims for a passed product gate or an explicit user closeout.
    - Before ending a major run, update the state docs and leave the repo on a named branch or clean merge state.
 
 ## Quality Bar

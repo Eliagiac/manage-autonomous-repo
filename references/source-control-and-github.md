@@ -27,7 +27,7 @@ Make small, coherent commits with messages that explain intent and validation. A
 
 ## Worktrees
 
-Use Git worktrees for parallel branches when multiple agents or experiments need isolated checkouts. Prefer one worktree per independent worker. Remove worktrees with `git worktree remove` after integration, and use `git worktree list` to audit active work.
+Use Git worktrees as the primary primitive for parallel branch isolation when multiple agents or experiments need isolated checkouts. Prefer one worktree per independent worker. Remove worktrees with `git worktree remove` after integration, and use `git worktree list` to audit active work.
 
 Good uses:
 
@@ -111,6 +111,8 @@ Main-branch exception:
 ## PR and Integration Policy
 
 When GitHub is available, use pull requests as durable review and integration objects, even if all authors are agents.
+
+Branch-visible cloud coding agents and external coding workers must leave reviewable evidence before integration: commits, diffs, logs, check results, PRs, or source-controlled reports. Do not integrate a chat-only claim of completion when the worker could have produced branch-visible proof.
 
 Each PR should include:
 

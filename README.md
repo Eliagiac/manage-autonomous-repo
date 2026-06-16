@@ -7,7 +7,9 @@ The skill emphasizes:
 - parallel-first orchestration with subagents;
 - durable repository memory for future agents;
 - branch and worktree isolation for independent work;
+- branch-visible evidence from cloud or external coding agents;
 - explicit model and reasoning choices for cost control;
+- explicit token/usage reporting and non-terminal product-program exit statuses;
 - documentation, roadmaps, demos, tests, and handoffs that live in the repo;
 - GitHub-oriented source-control hygiene.
 
@@ -60,6 +62,7 @@ Use `gpt-5.5` with `medium` reasoning for the main orchestrator. The bundled wor
 - `gpt-5.4-mini high` for read-heavy exploration and execution support;
 - `gpt-5.4 medium` for well-scoped implementation;
 - `gpt-5.4 high` for deeper code/debug/review work;
+- `gpt-5.4 high` for product-program audits with `mar_program_auditor`;
 - `gpt-5.5 medium` for rare senior synthesis.
 
 ## Usage

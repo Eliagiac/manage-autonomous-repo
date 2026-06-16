@@ -14,7 +14,7 @@ Rules:
 
 - Do not overwrite existing project agent files unless the user explicitly asks or the project docs say these presets own the agent definitions.
 - Use `--overwrite` only after reading the existing `.codex/agents/*.toml` files and confirming replacement is intended.
-- Prefer project-local `.codex/agents/` over user-global `~/.codex/agents/` so the workflow is reproducible for future agents in the repo.
+- Prefer project-local `.codex/agents/` over user-global `~/.codex/agents/` so the workflow is reproducible for future agents in the repo. For autonomous projects, commit those project-local agent templates and `.codex/config.toml` unless they contain secrets or machine-specific paths.
 - Keep `.codex/config.toml` trusted and source-controlled when the repo is meant to be autonomous. The recommended baseline is `[agents] max_threads = 10` and `max_depth = 2`.
 - If project config already defines `[agents]`, preserve its values unless they block the skill. If `max_depth` is below `2`, record that depth-2 helper lanes are unavailable.
 
@@ -29,6 +29,7 @@ The skill bundles these custom-agent template files under `assets/agents/`:
 | `mar-deep-code-worker.toml` | `mar_deep_code_worker` | Higher-reasoning depth-1 implementation/debug work with cross-module tracing or subtle integration risk. |
 | `mar-execution-runner.toml` | `mar_execution_runner` | Artifact-producing execution lanes: tests, benchmarks, imports, captures, demos, report generation, QC, CI/log collection. |
 | `mar-reviewer.toml` | `mar_reviewer` | Read-only correctness, maintainability, security/privacy, performance, docs/test, and integration review. |
+| `mar-program-auditor.toml` | `mar_program_auditor` | Read-only product-program audit for milestone gates, portfolio balance, completion status, and cost/parallelization drift. |
 | `mar-senior-synthesizer.toml` | `mar_senior_synthesizer` | Rare senior synthesis for architecture, roadmap, conflict, or ambiguous product-state decisions. |
 
 ## Selection Rules
@@ -42,6 +43,7 @@ The skill bundles these custom-agent template files under `assets/agents/`:
 - Use `mar_deep_code_worker` only when the task needs deeper code reasoning, broad tracing, complex debugging, or risky integration repair.
 - Use `mar_execution_runner` for long-running command sequences or artifact-producing proof work. Give it resource locks and artifact paths.
 - Use `mar_reviewer` after worker branches or risky generated artifacts, not as a substitute for implementation.
+- Use `mar_program_auditor` when a broad goal risks early completion, when track selection may be too narrow, or when budget/usage and parallelization behavior need an independent read-only audit.
 - Use `mar_senior_synthesizer` sparingly when cheaper workers return conflicting evidence or the decision is project-level.
 
 ## Built-In Fallback Mapping
@@ -55,6 +57,7 @@ Use this mapping when `spawn_agent` exposes only `default`, `explorer`, and `wor
 | `mar_deep_code_worker` | `worker` | `model = "gpt-5.4"`, `reasoning_effort = "high"` |
 | `mar_execution_runner` | `worker` | `model = "gpt-5.4-mini"`, `reasoning_effort = "high"` |
 | `mar_reviewer` | `explorer` | `model = "gpt-5.4"`, `reasoning_effort = "high"` |
+| `mar_program_auditor` | `explorer` | `model = "gpt-5.4"`, `reasoning_effort = "high"` |
 | `mar_senior_synthesizer` | `default` | `model = "gpt-5.5"`, `reasoning_effort = "medium"` |
 
 ## Output Contract

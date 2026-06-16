@@ -37,6 +37,7 @@ Prefer these project-local preset templates after installing `assets/agents/*.to
 - `mar_deep_code_worker`: higher-reasoning code/debug worker for subtle cross-module work.
 - `mar_execution_runner`: artifact-producing execution/proof worker for long commands, benchmarks, imports, captures, demos, reports, CI/log collection, and QC.
 - `mar_reviewer`: read-only review gate for correctness, test gaps, maintainability, security/privacy, performance, and integration risk.
+- `mar_program_auditor`: read-only product-program audit for milestone gates, portfolio balance, completion status, token/cost drift, and under-parallelization.
 - `mar_senior_synthesizer`: rare senior synthesis worker for conflicting evidence, architecture decisions, roadmap prioritization, or high-value ambiguity.
 
 The installer registers these presets in project `.codex/config.toml` as `[agents.mar_*]` entries. In a fresh session from that project root, spawn by preset name:
@@ -47,6 +48,7 @@ agent_type = "mar_code_worker"
 agent_type = "mar_deep_code_worker"
 agent_type = "mar_execution_runner"
 agent_type = "mar_reviewer"
+agent_type = "mar_program_auditor"
 agent_type = "mar_senior_synthesizer"
 ```
 
@@ -59,6 +61,7 @@ If `spawn_agent` returns `unknown agent_type` for a `mar_*` name, the current se
 | `mar_deep_code_worker` | `worker` | `model = "gpt-5.4"`, `reasoning_effort = "high"` |
 | `mar_execution_runner` | `worker` | `model = "gpt-5.4-mini"`, `reasoning_effort = "high"` |
 | `mar_reviewer` | `explorer` | `model = "gpt-5.4"`, `reasoning_effort = "high"` |
+| `mar_program_auditor` | `explorer` | `model = "gpt-5.4"`, `reasoning_effort = "high"` |
 | `mar_senior_synthesizer` | `default` | `model = "gpt-5.5"`, `reasoning_effort = "medium"` |
 
 ## Parallelization Checkpoint
@@ -96,6 +99,7 @@ Run this checkpoint before substantial implementation, debugging, refactoring, o
    - `review`: risk scan, security/privacy, maintainability, performance.
    - `demo`: browser/chrome/computer-use validation path, screenshots, artifacts.
    - `docs`: stale docs, roadmap update, state/handoff consistency.
+   - `program audit`: milestone gate fit, exit status, portfolio balance, token/cost drift, and parallelization health.
    - `implementation`: disjoint code slices with explicit branch/worktree and write ownership.
 10. For implementation lanes, assign each worker a branch or worktree before it writes code.
 11. Record track, lane ownership, branch/worktree ownership, and any depth-2 helper relationships in the plan or `docs/ai/agent-ledger.md`.
@@ -345,6 +349,7 @@ Orchestrator-local heavy work:
 Reasons local work was not delegated:
 Resource locks or bottlenecks:
 Model and reasoning choices:
+Token/usage budget status:
 Outputs integrated:
 Tracks parked or split:
 Next batch split points:
@@ -355,6 +360,7 @@ The note is not bureaucracy; it is the feedback loop that prevents the next agen
 ## Cost Rules
 
 - Start with the cheapest configuration likely to succeed; escalate after evidence, not anxiety.
+- Parallel subagents are useful but more expensive than single-threaded work. Spend them on independent lanes with clear proof artifacts, and record the expected value of the parallelism in the utilization review.
 - Keep the orchestrator quiet while subagents work. Waiting is cheaper than filling the main context with speculative reasoning.
 - Ask subagents for distilled deltas, not transcripts.
 - Put stable instructions before variable repo/task details in subagent prompts to improve prompt-cache friendliness where applicable.

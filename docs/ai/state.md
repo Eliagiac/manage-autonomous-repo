@@ -4,7 +4,7 @@ Last updated: 2026-06-16
 
 ## Current Goal
 
-Document and push the latest manage-autonomous-repo skill updates, then propagate the canonical repo copy into the local Codex loaded skill directory and project-local references that depend on it.
+Integrate and document the long-horizon manage-autonomous-repo update from `C:\Users\eliag\Downloads\manage_autonomous_repo_long_horizon_skill_update.zip`, then propagate the canonical repo copy into the local Codex loaded skill directory.
 
 ## Branch and Tree
 
@@ -15,6 +15,18 @@ Document and push the latest manage-autonomous-repo skill updates, then propagat
 
 ## Latest Progress
 
+- `SKILL.md` now includes Product Program Mode for broad product/research/autonomous objectives, including non-terminal statuses: `RUN_CONTINUES`, `MILESTONE_ACCEPTED`, `BLOCKED_REQUIRES_HUMAN`, and `PRODUCT_READY`.
+- Added long-horizon orchestration references:
+  - `references/product-orchestration-lifecycle.md`
+  - `references/agentic-orchestration-landscape.md`
+  - `references/goal-prompt-and-handoff-contracts.md`
+- Added the `mar_program_auditor` preset and installer/config docs so project-local agents can be version-controlled with the new auditor role.
+- Updated usage and preset docs to require branch-visible evidence from cloud/external coding agents, worktree isolation for parallel writes, explicit termination/resume status, and token/usage budget reporting.
+- Applied the update to the loaded skill and aforementioned project references:
+  - `C:\Users\eliag\.codex\skills\manage-autonomous-repo` synced from this repo.
+  - `C:\Users\eliag\OneDrive\Documenti\GitHub\gaussian-splatting` received `mar_program_auditor` and docs status notes.
+  - `C:\Users\eliag\OneDrive\Documenti\GitHub\gaussian-splatting-wg-backend-route-plan` received `mar_program_auditor` and docs status notes.
+  - `C:\Users\eliag\OneDrive\Documenti\GitHub\3d` received `mar_program_auditor` and docs status notes.
 - `SKILL.md` now links two new references:
   - `references/high-parallel-evidence-development.md`
   - `references/goal-prompt-and-context-bundles.md`
@@ -43,4 +55,4 @@ Run before finish:
 
 1. Run final validation.
 2. Commit and push the canonical repo.
-3. Leave project repos dirty only with the targeted status-note additions made during this propagation run.
+3. Leave project repos dirty only with the targeted preset/config additions and status-note documentation from this propagation run.
