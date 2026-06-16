@@ -1,0 +1,30 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Autonomous Repo Batch Ledger",
+  "type": "object",
+  "required": ["date", "status", "selected_tracks", "validation", "integration", "next_batch"],
+  "properties": {
+    "date": {"type": "string"},
+    "status": {"enum": ["RUN_CONTINUES", "MILESTONE_ACCEPTED", "BLOCKED_REQUIRES_HUMAN", "PRODUCT_READY"]},
+    "baseline": {"type": "object"},
+    "selected_tracks": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["track", "branch_or_worktree", "scope", "proof", "status"],
+        "properties": {
+          "track": {"type": "string"},
+          "branch_or_worktree": {"type": "string"},
+          "agent": {"type": "string"},
+          "scope": {"type": "string"},
+          "proof": {"type": "string"},
+          "status": {"type": "string"}
+        }
+      }
+    },
+    "budget": {"type": "object"},
+    "validation": {"type": "object"},
+    "integration": {"type": "object"},
+    "next_batch": {"type": "array", "items": {"type": "string"}}
+  }
+}

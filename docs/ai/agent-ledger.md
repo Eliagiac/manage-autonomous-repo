@@ -1,5 +1,50 @@
 # Agent Ledger
 
+## 2026-06-16 - Supplemental Orchestration Rulebook Archive
+
+Objective: add `C:\Users\eliag\Downloads\autonomous-repo-orchestration-rulebook.zip` to the repo as supplemental Pro Director material without making it part of the installed skill.
+
+Candidate tracks found:
+- Archive preservation and exact extraction under a repo-only supplemental folder.
+- Documentation outside the supplemental archive folder.
+- Source-control validation and push.
+
+Selected tracks:
+- Orchestrator: copy original zip, extract contents, document handling rules, validate, commit, and push.
+
+Agents spawned:
+- None. The task was a small serial source-control preservation update; parallelization overhead exceeded value.
+
+Workers by mode: documentation 1 / implementation 0 / execution 0 / review 0.
+
+Orchestrator-local heavy work:
+- Local archive copy/extract and source-control validation.
+
+Reasons local work was not delegated:
+- The work touched one archive destination and required keeping the original archive plus extracted tree together without modification.
+
+Resource locks or bottlenecks:
+- Canonical repo branch: `main`.
+- Supplemental destination: `supplemental/autonomous-repo-orchestration-rulebook/`.
+
+Model and reasoning choices:
+- Main orchestrator handled the small bounded update.
+
+Token/usage budget status:
+- No explicit token budget was set.
+
+Outputs integrated:
+- Original zip preserved as `supplemental/autonomous-repo-orchestration-rulebook/autonomous-repo-orchestration-rulebook.zip`.
+- Extracted tree preserved under `supplemental/autonomous-repo-orchestration-rulebook/autonomous_repo_orchestration_rulebook/`.
+- External documentation added in `docs/SUPPLEMENTAL.md`, with a link from `README.md`.
+- Repo state updated in `docs/ai/state.md`.
+
+Tracks parked or split:
+- None.
+
+Next batch split points:
+- If the rulebook changes later, add a new preserved archive/version rather than editing files inside the existing supplemental archive tree.
+
 ## 2026-06-16 - Pro Director Packet Update
 
 Objective: apply, integrate, and push the overlay bundle from `C:\Users\eliag\Downloads\manage-autonomous-repo-skill-update.zip`.

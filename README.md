@@ -19,6 +19,7 @@ The skill emphasizes:
 - `SKILL.md` - the main Codex skill entry point.
 - `references/` - detailed workflow playbooks loaded only when needed.
 - `templates/` - copy-ready packet templates for Pro Director capsules and Codex execution lanes.
+- `supplemental/` - repo-only supplemental materials that inform Pro Director instances but are not part of the installed skill.
 - `assets/agents/` - reusable custom-agent templates for autonomous repo work.
 - `scripts/install_agent_presets.py` - copies and registers the bundled agents in a target project.
 - `agents/openai.yaml` - Codex app metadata for the skill.
@@ -79,6 +80,10 @@ Continue this repository toward its roadmap. Keep docs, demos, tests, and source
 ```
 
 See [docs/USAGE.md](docs/USAGE.md) for workflow examples.
+
+## Supplemental Materials
+
+The repository includes supplemental Pro Director materials under `supplemental/`. These are committed for reference and distribution to Pro/ChatGPT director instances, but they are not skill files and should not be copied into loaded Codex skill directories or target project repositories. See [docs/SUPPLEMENTAL.md](docs/SUPPLEMENTAL.md).
 
 ## Related Projects and Prior Art
 

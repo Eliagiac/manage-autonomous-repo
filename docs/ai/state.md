@@ -4,7 +4,7 @@ Last updated: 2026-06-16
 
 ## Current Goal
 
-Apply, integrate, and push the Pro Director packet update from `C:\Users\eliag\Downloads\manage-autonomous-repo-skill-update.zip`, then propagate the canonical repo copy into the local Codex loaded skill directory and related project references.
+Add `C:\Users\eliag\Downloads\autonomous-repo-orchestration-rulebook.zip` to the repo as a repo-only supplemental archive: preserve the extracted contents and file structure unchanged, include the original zip alongside it, document the contents outside the archive subfolder, commit, and push.
 
 ## Branch and Tree
 
@@ -15,6 +15,11 @@ Apply, integrate, and push the Pro Director packet update from `C:\Users\eliag\D
 
 ## Latest Progress
 
+- Added repo-only supplemental rulebook material under `supplemental/autonomous-repo-orchestration-rulebook/`.
+- Preserved the original provided zip as `supplemental/autonomous-repo-orchestration-rulebook/autonomous-repo-orchestration-rulebook.zip`.
+- Extracted the archive to `supplemental/autonomous-repo-orchestration-rulebook/autonomous_repo_orchestration_rulebook/` without modifying its internal files.
+- Documented handling rules in `docs/SUPPLEMENTAL.md` and linked them from `README.md`.
+- The supplemental rulebook is not part of the installed skill and was not copied to the loaded skill directory or target project repositories.
 - `SKILL.md` now includes Pro Director Packet Mode for workflows where ChatGPT Pro/Pro Extended performs wide read-only planning and Codex performs bounded branch/worktree execution.
 - Added Pro Director references:
   - `references/pro-extended-director-protocol.md`
@@ -61,6 +66,5 @@ Run before finish:
 ## Next Actions
 
 1. Run final validation.
-2. Sync the canonical repo into `C:\Users\eliag\.codex\skills\manage-autonomous-repo`.
-3. Add targeted status notes to the aforementioned GS/3d project docs if the new mode affects their active handoffs.
-4. Commit and push the canonical repo.
+2. Verify the supplemental extracted tree matches the provided archive file list.
+3. Commit and push the canonical repo.
