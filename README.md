@@ -11,12 +11,14 @@ The skill emphasizes:
 - explicit model and reasoning choices for cost control;
 - explicit token/usage reporting and non-terminal product-program exit statuses;
 - documentation, roadmaps, demos, tests, and handoffs that live in the repo;
+- Pro Director + Codex execution packet workflows for separating wide read-only planning from bounded repository mutation;
 - GitHub-oriented source-control hygiene.
 
 ## Contents
 
 - `SKILL.md` - the main Codex skill entry point.
 - `references/` - detailed workflow playbooks loaded only when needed.
+- `templates/` - copy-ready packet templates for Pro Director capsules and Codex execution lanes.
 - `assets/agents/` - reusable custom-agent templates for autonomous repo work.
 - `scripts/install_agent_presets.py` - copies and registers the bundled agents in a target project.
 - `agents/openai.yaml` - Codex app metadata for the skill.

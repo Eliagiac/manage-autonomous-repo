@@ -1,5 +1,53 @@
 # Agent Ledger
 
+## 2026-06-16 - Pro Director Packet Update
+
+Objective: apply, integrate, and push the overlay bundle from `C:\Users\eliag\Downloads\manage-autonomous-repo-skill-update.zip`.
+
+Candidate tracks found:
+- Patch integration for `SKILL.md`.
+- New Pro Director protocol and orchestration budget references.
+- New context capsule and execution packet templates.
+- Loaded skill and project-reference propagation.
+
+Selected tracks:
+- Orchestrator: semantic merge of Pro Director Packet Mode into the current skill and docs.
+- Explorer: read-only archive inventory and integration-risk check.
+
+Agents spawned:
+- Archive inventory explorer, `gpt-5.4-mini high`, read-only.
+
+Workers by mode: research 1 / documentation 1 / implementation 0 / execution 0 / review 0.
+
+Orchestrator-local heavy work:
+- Semantic merge stayed local because the patch touches shared skill references and must preserve the Product Program Mode and evidence-contract updates already on `main`.
+
+Reasons local work was not delegated:
+- The update is a small overlay package with one central integration point and new docs/templates; separate write lanes would add coordination cost without reducing risk.
+
+Resource locks or bottlenecks:
+- Canonical repo branch: `main`.
+- Loaded skill directory: `C:\Users\eliag\.codex\skills\manage-autonomous-repo`.
+
+Model and reasoning choices:
+- Cheap explorer was sufficient for archive inventory; orchestrator handled source-control integration.
+
+Token/usage budget status:
+- No explicit token budget was set. The new budget ledger documents how Pro Director + Codex batches should report model/agent/resource usage.
+
+Outputs integrated:
+- `SKILL.md` Pro Director Packet Mode and reference links.
+- `references/pro-extended-director-protocol.md` and `references/orchestration-budget-ledger.md`.
+- `templates/pro-director-context-capsule.md` and `templates/codex-execution-packet.md`.
+- Loaded skill directory refreshed at `C:\Users\eliag\.codex\skills\manage-autonomous-repo`.
+- Target project status notes updated in `gaussian-splatting`, `gaussian-splatting-wg-backend-route-plan`, and `3d`.
+
+Tracks parked or split:
+- None.
+
+Next batch split points:
+- Target project docs may adopt Pro Director Packet Mode when a Pro-generated context capsule or execution packet is used.
+
 ## 2026-06-16 - Long-Horizon Product Program Update
 
 Objective: integrate and document the archive update from `C:\Users\eliag\Downloads\manage_autonomous_repo_long_horizon_skill_update.zip`.

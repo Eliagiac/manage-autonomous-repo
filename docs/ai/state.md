@@ -4,7 +4,7 @@ Last updated: 2026-06-16
 
 ## Current Goal
 
-Integrate and document the long-horizon manage-autonomous-repo update from `C:\Users\eliag\Downloads\manage_autonomous_repo_long_horizon_skill_update.zip`, then propagate the canonical repo copy into the local Codex loaded skill directory.
+Apply, integrate, and push the Pro Director packet update from `C:\Users\eliag\Downloads\manage-autonomous-repo-skill-update.zip`, then propagate the canonical repo copy into the local Codex loaded skill directory and related project references.
 
 ## Branch and Tree
 
@@ -15,6 +15,13 @@ Integrate and document the long-horizon manage-autonomous-repo update from `C:\U
 
 ## Latest Progress
 
+- `SKILL.md` now includes Pro Director Packet Mode for workflows where ChatGPT Pro/Pro Extended performs wide read-only planning and Codex performs bounded branch/worktree execution.
+- Added Pro Director references:
+  - `references/pro-extended-director-protocol.md`
+  - `references/orchestration-budget-ledger.md`
+- Added copy-ready templates:
+  - `templates/pro-director-context-capsule.md`
+  - `templates/codex-execution-packet.md`
 - `SKILL.md` now includes Product Program Mode for broad product/research/autonomous objectives, including non-terminal statuses: `RUN_CONTINUES`, `MILESTONE_ACCEPTED`, `BLOCKED_REQUIRES_HUMAN`, and `PRODUCT_READY`.
 - Added long-horizon orchestration references:
   - `references/product-orchestration-lifecycle.md`
@@ -54,5 +61,6 @@ Run before finish:
 ## Next Actions
 
 1. Run final validation.
-2. Commit and push the canonical repo.
-3. Leave project repos dirty only with the targeted preset/config additions and status-note documentation from this propagation run.
+2. Sync the canonical repo into `C:\Users\eliag\.codex\skills\manage-autonomous-repo`.
+3. Add targeted status notes to the aforementioned GS/3d project docs if the new mode affects their active handoffs.
+4. Commit and push the canonical repo.

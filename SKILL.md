@@ -46,6 +46,8 @@ Read only the references needed for the current phase:
 - `references/goal-prompt-and-context-bundles.md`: context capsules, goal-prompt structure, branch-doc bundle ingestion, and token-budgeted handoffs.
 - `references/autonomous-workflows.md`: planning, research, implementation, debugging, testing, foundation review, refactor strategy.
 - `references/product-orchestration-lifecycle.md`: long-horizon product gates, milestone loops, completion statuses, and product-program docs.
+- `references/pro-extended-director-protocol.md`: Pro/ChatGPT read-only director packets, Codex execution packets, branch federation, and post-Codex review contracts.
+- `references/orchestration-budget-ledger.md`: model/agent/resource budget reporting when Pro handles wide planning and Codex handles bounded execution.
 - `references/agentic-orchestration-landscape.md`: external patterns from Codex, GitHub agents, Claude Code, LangGraph, AutoGen, CrewAI, OpenHands, and Git worktrees.
 - `references/goal-prompt-and-handoff-contracts.md`: compact goals, bulk instruction files, session handoffs, and non-terminal exit statuses.
 
@@ -56,6 +58,22 @@ Recommend `gpt-5.5` with `medium` reasoning for the main agent running this skil
 While subagents run, avoid burning orchestrator tokens on speculative narration or duplicating their work. Either do useful non-overlapping critical-path work, prepare integration/validation, or wait deliberately and summarize only when results arrive.
 
 Subagent spawning still depends on active tool policy. The recommended invocation/default prompt includes explicit user authorization to use subagents as per this skill; when that authorization is present, follow the parallelization rules without asking again.
+
+## Pro Director Packet Mode
+
+When the user provides a read-only Pro/ChatGPT-generated context capsule, track portfolio, execution packet, or integration plan, treat it as the starting plan for the Codex session. Codex should verify current repo state, branch/worktree assumptions, resource locks, and validation commands, then execute bounded lanes. Do not re-run broad roadmap synthesis, reload giant memory docs, or reinterpret the whole product goal unless the packet is stale or invalid.
+
+When both Product Program Mode and Pro Director Packet Mode apply, Product Program Mode defines the product gate and exit status, while Pro Director Packet Mode defines the division of planning, execution, budget review, and handoff for the current Codex batch.
+
+In this mode:
+
+1. The Pro Director owns wide read-only reasoning, task-card generation, budget planning, and post-batch review.
+2. The Codex integration agent owns branch/worktree setup, worker dispatch, merges, validation, compact repo-memory updates, and source-control-visible handoff.
+3. Codex workers own only their execution packets.
+4. If repo state invalidates the Pro packet, stop after a concise invalidation report or re-scope only the invalid lane.
+5. End with a Pro-review packet: merged/parked/rejected branches, validation, artifacts, docs updated, budget notes, invalidated assumptions, and next questions.
+
+Use `references/pro-extended-director-protocol.md`, `references/orchestration-budget-ledger.md`, `templates/pro-director-context-capsule.md`, and `templates/codex-execution-packet.md` for the detailed contracts.
 
 ## Parallel-First Orchestration
 

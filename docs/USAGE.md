@@ -29,6 +29,17 @@ Use subagents as per skill instructions.
 Run this repository as a Product Program Mode project. Treat ordinary sessions as progress cycles. End with RUN_CONTINUES, MILESTONE_ACCEPTED, BLOCKED_REQUIRES_HUMAN, or PRODUCT_READY, and only claim completion when the product gate passes.
 ```
 
+If a Pro/ChatGPT planning pass already produced a context capsule or execution packets, pass those source-controlled docs to Codex and start in Pro Director Packet Mode:
+
+```text
+[$manage-autonomous-repo](C:\Users\<you>\.codex\skills\manage-autonomous-repo\SKILL.md)
+Use subagents as per skill instructions.
+
+Use the Pro Director packet at <path>. Verify current branch/worktree state, then execute only the valid bounded lanes. End with a Pro-review packet.
+```
+
+Copy-ready packet templates live in `templates/pro-director-context-capsule.md` and `templates/codex-execution-packet.md`.
+
 ## First-Run Checklist
 
 1. Confirm the repository is trusted and under Git.
