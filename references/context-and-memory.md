@@ -1,6 +1,6 @@
 # Context and Memory
 
-Use this reference to minimize token waste while keeping the project restartable across long runs, subagents, compaction, and future threads.
+Use this reference to minimize token waste while keeping the project restartable across long runs, subagents, compaction, parallel branches, and future threads.
 
 ## Core Rule
 
@@ -10,22 +10,38 @@ Treat chat history as working memory, not project memory. The repository is the 
 
 Maintain these tiers separately:
 
-- Active brief: the small current-task packet an agent needs now. Store it in `docs/ai/state.md` or pass it in a subagent prompt.
+- Active brief: the small current-task packet an agent needs now. Store the global pointer in `docs/ai/state.md`; for parallel work store lane-specific briefs in `docs/ai/batches/<batch-id>/lanes/<lane-id>.md`.
 - Stable memory: architecture, feature map, decisions, roadmap, testing, demos, and runbooks in `docs/ai/`.
-- Context index: `docs/ai/context-index.md`, mapping concepts, subsystems, commands, docs, and tests to paths. This prevents agents from pasting or rediscovering the same large context.
+- Context index: `docs/ai/context-index.md`, mapping concepts, subsystems, commands, docs, and tests to paths.
+- Lane memory: per-lane objective, branch/worktree, owned/avoid scope, locks, proof artifact, validation, output status, and receipt or PR links.
 - Session notes: temporary findings from the current run or subagent. Promote only reusable facts.
 - Archive: raw logs, long research notes, old plans, and superseded designs. Link to them; do not load by default.
 
 ## Required Context Docs
 
-Add these docs if the project is large or long-running:
+Add these docs if the project is large, long-running, parallel, or DCDF-managed:
 
 - `docs/ai/context-index.md`: short index of what to read for each subsystem, feature, workflow, command, and decision area.
 - `docs/ai/objectives.md`: durable product goals, non-goals, constraints, success metrics, and current priority ordering.
 - `docs/ai/memory.md`: curated long-term notes that are not naturally part of architecture or roadmap docs.
+- `docs/ai/branch-map.md`: active branch, worktree, integration target, base/head, ownership, shared-file, and merge-order map.
+- `docs/ai/locks.md`: active and known resource locks with owners, release conditions, and stale-lock policy.
+- `docs/ai/batches/`: dated or ID-scoped batch directories with one `index.md` and one lane file per active lane.
+- `docs/ai/evidence/`: curated evidence manifests for artifacts that influence acceptance.
 - `docs/ai/handoffs/`: optional dated handoff briefs for major milestones or compactions.
 
 Do not duplicate stable facts across all files. Choose one owner document and link to it.
+
+## Parallel Memory Discipline
+
+Use a single-writer model for shared memory during parallel work.
+
+- The orchestrator owns `state.md`, `branch-map.md`, `locks.md`, and batch `index.md`.
+- Each lane owner writes or reports deltas for its own lane file only.
+- Review and evidence workers create evidence manifests or review files rather than editing another lane's active state.
+- `agent-ledger.md` records final utilization and integrated outcomes after a batch; it is not the live lane database.
+- If branch/worktree or lock facts change, update the shared map once and point lane files to it.
+- If a lane discovers that its owned scope, avoid scope, or lock map is wrong, it stops and reports the mismatch instead of silently widening scope.
 
 ## Context Budgeting
 
@@ -37,13 +53,12 @@ Before loading or sending context, classify each item:
 
 For the orchestrator:
 
-- Start each major phase by reading `docs/ai/state.md`, `docs/ai/context-index.md`, and only the docs/files tied to the active task.
-- Use a resume fast path after long runs: read current state, context index, recent ledger entries, branch status, and only the changed docs or files needed for the selected batch. Do not reload the full skill, full roadmap, or whole documentation tree unless the task requires it.
-- Use `rg`/file search to retrieve facts instead of loading whole directories.
+- Start each major phase by reading `docs/ai/state.md`, `docs/ai/context-index.md`, the current batch index, branch map, lock map, and only the docs/files tied to the active task.
+- Use a resume fast path after long runs: read current state, context index, recent ledger entries, branch status, active lane files, and only the changed docs or files needed for the selected batch.
+- Use search to retrieve facts instead of loading whole directories.
 - Summarize noisy tool output into state docs or task notes, then stop carrying the raw output in the prompt.
 - Replace stale summaries; do not append endlessly.
 - Keep stable instructions in the skill or repo docs and pass subagents links plus a short task packet.
-- Keep repeated status comments and PR updates delta-based. Link prior evidence instead of restating the full project background, complete test matrix, or unchanged roadmap.
 
 For subagents:
 
@@ -53,6 +68,7 @@ For subagents:
 - For execution lanes, ask for artifact paths, command outcomes, timing, resource locks used, and concise failure evidence rather than raw logs.
 - Forbid dumping long logs unless the logs are the deliverable.
 - Require subagents to state which docs/files they actually relied on.
+- Require branch/worktree and lock mismatch reports before any scope expansion.
 
 ## Token Budget Protocol
 
@@ -60,10 +76,9 @@ Use token budget as an engineering resource:
 
 - Spend orchestration tokens on decisions, integration, conflict resolution, and synthesis.
 - Spend cheaper subagent tokens on bounded reading, execution, test discovery, artifact inspection, and well-scoped implementation.
-- When spawning a batch, put stable boilerplate first and variable repo/task context later. Stable prefixes improve prompt-cache friendliness where platform caching applies.
 - Give each worker a short active brief plus file paths. Require a concise artifact-backed report instead of a transcript.
 - Prefer repository artifacts over chat memory for large outputs: reports, manifests, logs, screenshots, benchmark tables, and handoff briefs should be written to files and summarized by path.
-- For long command sequences, decide explicitly whether the main thread should wait quietly, delegate an execution lane, or do unrelated critical-path work. Do not fill the main context with speculative progress commentary.
+- For long command sequences, decide explicitly whether the main thread should wait quietly, delegate an execution lane, or do unrelated critical-path work.
 - At batch end, record the model/effort choices and any avoidable orchestrator-local heavy work in the utilization review.
 
 ## Codex Config Cost Controls
@@ -80,10 +95,9 @@ max_depth = 2
 
 Guidance:
 
-- `agents.max_threads = 10` matches the baseline you asked to standardize on for this skill.
-- `agents.max_depth = 2` is required only when depth-1 workers should be able to spawn helper lanes. If unset, Codex defaults to depth 1 and depth-2 helper workflows are unavailable.
-- `model_verbosity = "low"` can reduce status and final-answer output for Responses API providers; still write durable details into repo docs.
-- Do not set `model_context_window` unless a provider/catalog mismatch requires it.
+- `agents.max_threads = 10` is the standalone MAR baseline for repos that can safely absorb that many direct worker threads.
+- `agents.max_depth = 2` is required only when depth-1 workers should be able to spawn helper lanes.
+- In DCDF Lane Compatibility Mode, the `lane-task.v2`, project budget, and DCDF controller policy override these standalone defaults. Do not raise a DCDF lane's thread/depth budget from MAR docs alone.
 - Use profile files for personal experiments and project `.codex/config.toml` only for settings that should be reproducible for future agents.
 - Keep subagent prompts stable and narrow. Static role instructions should come first; variable repo context should come later.
 - Keep final user-facing status short. Put full command lists, artifact paths, and batch utilization details in `docs/ai/`.
@@ -95,71 +109,18 @@ Use session notes as a staging area and curated memory as a reviewed store:
 1. Capture candidate notes during work only when they are likely to matter later.
 2. Consolidate at phase end: dedupe, resolve conflicts, attach sources, and delete trivia.
 3. Promote notes to the correct owner doc.
-4. Add metadata for memory-only notes:
-
-```text
-id:
-type: constraint | preference | invariant | decision | hazard | environment | workflow
-claim:
-source:
-scope:
-confidence:
-last_verified:
-supersedes:
-expires:
-tags:
-linked_paths:
-```
-
+4. Add metadata for memory-only notes: id, type, claim, source, scope, confidence, last verified, supersedes, expires, tags, and linked paths.
 5. Prune or decay stale notes. A memory that is no longer true is worse than no memory.
 
-Use `docs/ai/memory.md` only for durable facts that do not fit better in architecture, decisions, testing, demos, or roadmap docs.
-
-## Objective Management
-
-Keep objectives durable but compact:
-
-- Store project-level goals and non-goals in `docs/ai/objectives.md`.
-- Store current run goal and next actions in `docs/ai/state.md`.
-- Store feature-level acceptance criteria in `docs/ai/feature-roadmaps.md`.
-- When priorities change, update the owner document and add a decision-log entry if the change affects architecture, scope, or user-visible behavior.
-
-Do not paste the full objective tree into every subagent prompt. Pass the relevant slice and link to the owner doc.
+Use `docs/ai/memory.md` only for durable facts that do not fit better in architecture, decisions, testing, demos, roadmap, branch map, lock map, lane files, or evidence manifests.
 
 ## Handoff Brief
 
 Create a handoff brief before major pauses, compaction, branch integration, or thread transfer. Keep it under roughly 300 to 800 words unless the project is unusually large.
 
-Use this structure:
-
-```text
-Goal:
-Current state:
-Branch/worktree/PR:
-Important constraints:
-Decisions made:
-Files changed:
-Validation run:
-Demos:
-Known risks:
-Next actions:
-Docs to read first:
-Do not redo:
-```
+Include: goal, current state, branch/worktree/PR, constraints, decisions, files changed, validation, demos, risks, next actions, docs to read first, and do-not-redo items.
 
 If creating a new thread or subagent from a handoff, pass the handoff plus links to the top two or three relevant docs, not the whole repository memory.
-
-## Compaction and API State
-
-When platform compaction is available, use it for long-running conversations to reduce context size while preserving continuation state. Do not treat opaque compaction items as a substitute for human-readable repo memory.
-
-When using Responses API state features:
-
-- Conversations and `previous_response_id` can preserve state across turns, but previous inputs in a chain may still count as billed input tokens.
-- Server-side or standalone compaction can reduce context size in long workflows.
-- Prompt caching favors stable shared prefixes, so keep reusable instructions stable and put task-specific variable context later.
-
-For Codex repository work, still write durable state into `docs/ai/`. API state can help a run continue; repo memory helps any future agent restart.
 
 ## Redundancy Control Checklist
 
@@ -169,10 +130,6 @@ For Codex repository work, still write durable state into `docs/ai/`. API state 
 - Did a subagent return a concise delta rather than a transcript?
 - Did a stale plan, old state, or superseded memory get removed or marked superseded?
 - Can a fresh agent find the right context via `docs/ai/context-index.md` without reading everything?
-
-## Official References
-
-- OpenAI conversation state: https://developers.openai.com/api/docs/guides/conversation-state
-- OpenAI compaction: https://developers.openai.com/api/docs/guides/compaction
-- OpenAI prompt caching: https://developers.openai.com/api/docs/guides/prompt-caching
-- OpenAI context personalization cookbook: https://developers.openai.com/cookbook/examples/agents_sdk/context_personalization
+- Is active lane state in lane files rather than scattered across one shared doc?
+- Are branch/worktree and lock maps current before new workers write?
+- Are local absolute paths, secrets, account metadata, raw model output, and private session artifacts absent from durable memory?

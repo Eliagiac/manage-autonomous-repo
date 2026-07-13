@@ -19,11 +19,12 @@ Product Program Mode means:
 
 1. Define the product gate, milestone ladder, and active portfolio before implementation.
 2. Treat ordinary sessions as progress cycles, not completion events.
-3. Use explicit exit statuses: `RUN_CONTINUES`, `MILESTONE_ACCEPTED`, `BLOCKED_REQUIRES_HUMAN`, or `PRODUCT_READY`.
-4. Never mark a broad goal complete because instructions were read, a plan was written, a first slice landed, or one branch was merged.
-5. Keep the long-horizon operating model in repo docs so future agents can resume without chat memory.
-6. Maintain an independent track portfolio and choose batches by safe parallelism, user value, unblock value, proof clarity, integration cost, and resource locks.
-7. Record negative and parked evidence as first-class progress when it prevents repeated expensive routes.
+3. Use explicit standalone exit statuses: `RUN_CONTINUES`, `MILESTONE_ACCEPTED`, `BLOCKED_REQUIRES_HUMAN`, or `PRODUCT_READY`.
+4. In DCDF compatibility mode, translate human-blocked work into a lane-scoped `decision-request.v2` or an explicit authorization request for an agent action; do not ask the human to operate GitHub, local tools, or controller state manually.
+5. Never mark a broad goal complete because instructions were read, a plan was written, a first slice landed, or one branch was merged.
+6. Keep the long-horizon operating model in repo docs so future agents can resume without chat memory.
+7. Maintain an independent track portfolio and choose batches by safe parallelism, user value, unblock value, proof clarity, integration cost, and resource locks.
+8. Record negative and parked evidence as first-class progress when it prevents repeated expensive routes.
 
 For Product Program Mode, write or update a small set of management docs when absent:
 
@@ -32,6 +33,7 @@ For Product Program Mode, write or update a small set of management docs when ab
 - Track portfolio and parked/negative lanes.
 - Agent operating model with roles, branch/worktree policy, resource locks, and exit statuses.
 - Compact goal prompt plus bulk instruction file when platform prompt limits apply.
+- For parallel or DCDF-managed work, lane-indexed batch memory with branch/worktree maps, resource locks, evidence manifests, and receipt links.
 
 ## Load References
 
@@ -39,7 +41,7 @@ Read only the references needed for the current phase:
 
 - `references/subagent-playbook.md`: delegation, model selection, subagent depth, cost control, prompt templates.
 - `references/agent-presets.md`: bundled custom-agent TOML presets, installation command, and project `.codex/agents/` plus `.codex/config.toml` registration policy.
-- `references/documentation-system.md`: required living docs, roadmaps, demos, restart handoff structure.
+- `references/documentation-system.md`: required living docs, roadmaps, demos, restart handoff structure, and parallel-safe lane memory.
 - `references/context-and-memory.md`: context redundancy control, long-term memory, compaction, handoff briefs.
 - `references/source-control-and-github.md`: repository setup, GitHub/PR/worktree policy, branch-separated subagent work, integration branches, conflict handling.
 - `references/high-parallel-evidence-development.md`: evidence-status taxonomy, external workdir contracts, resource locks, branch-stack maps, and stop rules for planning-only chains.
@@ -48,6 +50,7 @@ Read only the references needed for the current phase:
 - `references/product-orchestration-lifecycle.md`: long-horizon product gates, milestone loops, completion statuses, and product-program docs.
 - `references/pro-extended-director-protocol.md`: Pro/ChatGPT read-only director packets, Codex execution packets, branch federation, and post-Codex review contracts.
 - `references/orchestration-budget-ledger.md`: model/agent/resource budget reporting when Pro handles wide planning and Codex handles bounded execution.
+- `references/dcdf-lane-compatibility.md`: DCDF lane-task authority, forbidden authority, output mapping, and ledger/outbox boundaries.
 - `references/agentic-orchestration-landscape.md`: external patterns from Codex, GitHub agents, Claude Code, LangGraph, AutoGen, CrewAI, OpenHands, and Git worktrees.
 - `references/goal-prompt-and-handoff-contracts.md`: compact goals, bulk instruction files, session handoffs, and non-terminal exit statuses.
 
@@ -74,6 +77,22 @@ In this mode:
 5. End with a Pro-review packet: merged/parked/rejected branches, validation, artifacts, docs updated, budget notes, invalidated assumptions, and next questions.
 
 Use `references/pro-extended-director-protocol.md`, `references/orchestration-budget-ledger.md`, `templates/pro-director-context-capsule.md`, and `templates/codex-execution-packet.md` for the detailed contracts.
+
+## DCDF Lane Compatibility Mode
+
+Activate DCDF Lane Compatibility Mode only when the caller supplies a schema-valid `lane-task.v2` or a source-controlled DCDF execution packet that is explicitly bound to one. In this mode, the DCDF lane task is the authority and this skill becomes lane-local doctrine.
+
+DCDF lane compatibility rules:
+
+1. Treat `project_id`, `order_id`, `task_id`, `lane_id`, `task_hash`, repository id, branch, worktree, owned scope, avoid scope, protected paths, artifact policy, validation commands, helper limits, resource locks, approvals, and stop conditions from the lane task as authoritative.
+2. Use `dcdf-run-lane` as the admission, scope-enforcement, helper-policy, and final-output skill. This skill must not parse, accept, reject, or repair `dcdf.director_order.v2`.
+3. Do not publish the global ledger, mutate DCDF registry/index state outside the assigned owned scope, operate ChatGPT, create official Codex threads, schedule cross-project work, acquire global publisher locks, or perform legacy teardown.
+4. Do not replace DCDF receipt semantics with standalone status text. Emit `run-receipt.v2` or `decision-request.v2` through the controlling lane path, including `project_id`, `order_id`, `task_id`, `lane_id`, and `task_hash`.
+5. When a standalone MAR status would be `BLOCKED_REQUIRES_HUMAN`, translate it to `DECISION_REQUIRED`, `APPROVAL_MISSING`, or another lane-valid blocker that asks for authorization of an agent action rather than manual human operation.
+6. Preserve all Product Program Mode strengths only inside the accepted lane: independent track thinking, evidence taxonomy, branch/worktree isolation, compact memory, review gates, and cost-aware helper routing.
+7. If DCDF policy conflicts with a standalone MAR default, DCDF wins. This includes `agents.max_threads`, `agents.max_depth`, model palette, write roots, validation ladder, and publication path.
+
+Use `references/dcdf-lane-compatibility.md` and the caller-supplied lane task before applying any standalone autonomous-repo defaults.
 
 ## Parallel-First Orchestration
 
@@ -110,7 +129,6 @@ For broad autonomous projects, do not let the orchestrator collapse the whole ro
 9. Assign read-only/research agents to tracks that still need scoping.
 10. Keep `main` stable. After the GitHub baseline is established, substantial code changes should normally happen on worker branches and merge through `integrate/<milestone>`.
 11. If only one track is active, document why: no clean baseline yet, every path depends on the same blocker, the repo is too dirty to split safely, or no path has a separable write scope.
-
 
 ## Evidence-Contract and Context-Capsule Addendum
 
@@ -152,7 +170,8 @@ Use this positive workflow for broad repo sessions:
 
 2. Create the project memory.
    - If absent, create the documentation system from `references/documentation-system.md`.
-   - Maintain a current-state page, feature map, architecture map, roadmap, decision log, demo index, test matrix, and agent ledger.
+   - Maintain a current-state page, context index, feature map, architecture map, roadmap, decision log, demo index, test matrix, and agent ledger.
+   - For parallel work, maintain batch and lane docs under `docs/ai/batches/<batch-id>/`, plus lock and branch maps; do not make one shared state page the only active lane database.
    - Use `references/context-and-memory.md` to keep durable memory concise, deduplicated, searchable, and separate from raw conversation history.
    - Keep docs close to code changes. A future agent should be able to understand what exists, what is trusted, what is broken, and where to continue.
 
@@ -191,8 +210,8 @@ Use this positive workflow for broad repo sessions:
 
 8. Report and hand off.
    - Keep user-facing status concise: current capability, latest demo path, roadmap position, important risks, and next recommended work.
-   - Record a batch utilization note in `docs/ai/agent-ledger.md` or `docs/ai/state.md`: selected tracks, agents spawned, local heavy work, reasons for skipped delegation, model/cost choices, token/usage budget status, and next split points.
-   - For broad Product Program Mode goals, end with `RUN_CONTINUES`, `MILESTONE_ACCEPTED`, `BLOCKED_REQUIRES_HUMAN`, or `PRODUCT_READY`; reserve completion claims for a passed product gate or an explicit user closeout.
+   - Record a batch utilization note in `docs/ai/agent-ledger.md`, `docs/ai/batches/<batch-id>/index.md`, or an equivalent PR description: selected tracks, agents spawned, local heavy work, reasons for skipped delegation, model/cost choices, token/usage budget status, and next split points.
+   - For broad Product Program Mode goals, end with `RUN_CONTINUES`, `MILESTONE_ACCEPTED`, `BLOCKED_REQUIRES_HUMAN`, or `PRODUCT_READY`; in DCDF mode, map blocking states to a lane-valid receipt or decision request.
    - Before ending a major run, update the state docs and leave the repo on a named branch or clean merge state.
 
 ## Quality Bar

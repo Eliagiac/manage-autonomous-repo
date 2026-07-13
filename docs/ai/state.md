@@ -1,70 +1,51 @@
 # AI State
 
-Last updated: 2026-06-16
+Last updated: 2026-07-03
 
 ## Current Goal
 
-Add `C:\Users\eliag\Downloads\autonomous-repo-orchestration-rulebook.zip` to the repo as a repo-only supplemental archive: preserve the extracted contents and file structure unchanged, include the original zip alongside it, document the contents outside the archive subfolder, commit, and push.
+Harden `manage-autonomous-repo` for DCDF compatibility while preserving its standalone autonomous-repo value. This includes explicit DCDF Lane Compatibility Mode, parallel-safe repo memory, sanitized continuation docs, and reviewable evidence for DCDF ledger onboarding.
 
 ## Branch and Tree
 
-- Repo: `C:\Users\eliag\OneDrive\Documenti\GitHub\manage-autonomous-repo`
-- Branch: `main`
-- Remote: `origin/main`
-- Current change set: `SKILL.md`, new evidence/context reference docs, and this compact AI state/ledger.
+- Canonical repo: `Eliagiac/manage-autonomous-repo`
+- Active review branch: `dcdf/mar-dcdf-mode-memory-20260703`
+- Stable branch: `main`
+- Current batch: `docs/ai/batches/2026-07-03-dcdf-compatibility/index.md`
+- Branch/worktree map: `docs/ai/branch-map.md`
+- Lock map: `docs/ai/locks.md`
+
+No local absolute path is canonical project memory. Local checkouts and installed skill copies must be rediscovered by the executing agent.
 
 ## Latest Progress
 
-- Added repo-only supplemental rulebook material under `supplemental/autonomous-repo-orchestration-rulebook/`.
-- Preserved the original provided zip as `supplemental/autonomous-repo-orchestration-rulebook/autonomous-repo-orchestration-rulebook.zip`.
-- Extracted the archive to `supplemental/autonomous-repo-orchestration-rulebook/autonomous_repo_orchestration_rulebook/` without modifying its internal files.
-- Documented handling rules in `docs/SUPPLEMENTAL.md` and linked them from `README.md`.
-- The supplemental rulebook is not part of the installed skill and was not copied to the loaded skill directory or target project repositories.
-- `SKILL.md` now includes Pro Director Packet Mode for workflows where ChatGPT Pro/Pro Extended performs wide read-only planning and Codex performs bounded branch/worktree execution.
-- Added Pro Director references:
-  - `references/pro-extended-director-protocol.md`
-  - `references/orchestration-budget-ledger.md`
-- Added copy-ready templates:
-  - `templates/pro-director-context-capsule.md`
-  - `templates/codex-execution-packet.md`
-- `SKILL.md` now includes Product Program Mode for broad product/research/autonomous objectives, including non-terminal statuses: `RUN_CONTINUES`, `MILESTONE_ACCEPTED`, `BLOCKED_REQUIRES_HUMAN`, and `PRODUCT_READY`.
-- Added long-horizon orchestration references:
-  - `references/product-orchestration-lifecycle.md`
-  - `references/agentic-orchestration-landscape.md`
-  - `references/goal-prompt-and-handoff-contracts.md`
-- Added the `mar_program_auditor` preset and installer/config docs so project-local agents can be version-controlled with the new auditor role.
-- Updated usage and preset docs to require branch-visible evidence from cloud/external coding agents, worktree isolation for parallel writes, explicit termination/resume status, and token/usage budget reporting.
-- Applied the update to the loaded skill and aforementioned project references:
-  - `C:\Users\eliag\.codex\skills\manage-autonomous-repo` synced from this repo.
-  - `C:\Users\eliag\OneDrive\Documenti\GitHub\gaussian-splatting` received `mar_program_auditor` and docs status notes.
-  - `C:\Users\eliag\OneDrive\Documenti\GitHub\gaussian-splatting-wg-backend-route-plan` received `mar_program_auditor` and docs status notes.
-  - `C:\Users\eliag\OneDrive\Documenti\GitHub\3d` received `mar_program_auditor` and docs status notes.
-- `SKILL.md` now links two new references:
-  - `references/high-parallel-evidence-development.md`
-  - `references/goal-prompt-and-context-bundles.md`
-- The new references add evidence-status taxonomy, promotion gates, external workdir contracts, resource locks, branch-stack maps, context capsules, and goal-prompt guidance.
-- This repo now has a minimal `docs/ai/` state and agent ledger for autonomous continuation.
-- The canonical skill package was copied to `C:\Users\eliag\.codex\skills\manage-autonomous-repo`.
-- Related GS/3d project references were updated or checked:
-  - `C:\Users\eliag\OneDrive\Documenti\GitHub\gaussian-splatting`: applied-status note added to the skill reflection doc.
-  - `C:\Users\eliag\OneDrive\Documenti\GitHub\gaussian-splatting-wg-backend-route-plan`: applied-status note added; project-local presets/config already matched canonical templates.
-  - `C:\Users\eliag\OneDrive\Documenti\GitHub\3d`: state and agent ledger now record the refreshed loaded skill; project-local presets/config already matched canonical templates.
+- Added DCDF Lane Compatibility Mode to `SKILL.md`.
+- Added `references/dcdf-lane-compatibility.md`.
+- Upgraded documentation guidance to use lane-indexed batch memory, branch maps, lock maps, and evidence manifests for parallel work.
+- Replaced sequential-only local state with sanitized, repository-relative continuation docs.
+- Added active batch, lane, lock, branch-map, roadmap, memory, and evidence files.
+- Prepared DCDF ledger registration evidence through source-controlled docs and a separate DCDF branch/PR.
 
 ## Validation
 
-Run before finish:
+Connector-only updates in this branch cannot prove local command execution.
+
+Required validation before merge or controller publication:
 
 - `git status --short --branch`
 - `git diff --check`
-- targeted file presence checks for installed/project-local propagated copies
+- `python scripts/install_agent_presets.py --help`
+- review for local absolute paths, secrets, raw logs, raw model output, and private session artifacts
 
 ## Active Risks and Assumptions
 
-- Project-local copies may be stale if they vendored the skill rather than using the loaded `$USERPROFILE\.codex\skills` copy.
-- Existing project `.codex/agents` files may contain local edits; do not overwrite them unless the installer is intentionally run with `--overwrite`.
+- Local validation has not been run in this connector-only Pro pass.
+- Some historical supplemental material intentionally preserves prior archive contents; do not treat supplemental archive internals as installed-skill doctrine.
+- DCDF lane compatibility depends on the caller supplying a valid `lane-task.v2`; this skill does not create DCDF authority.
+- Project-local copies in downstream repos may remain stale until the installer or a controller lane refreshes them.
 
 ## Next Actions
 
-1. Run final validation.
-2. Verify the supplemental extracted tree matches the provided archive file list.
-3. Commit and push the canonical repo.
+1. Review the branch diff and run the validation commands above.
+2. Merge or otherwise publish the MAR documentation branch after review.
+3. Use the DCDF PR to register `manage-autonomous-repo` in the single global ledger and set the DCDF architecture lane budget to six threads.
